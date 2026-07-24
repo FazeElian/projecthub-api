@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,33 +14,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "students")
+@Table(name = "projects")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 100)
+    @Size(min = 5, max = 60)
     @Column(nullable = false, length = 100)
-    private String fullName;
+    private String name;
 
-    @NotBlank
-    @Email
-    @Size(max = 150)
-    @Column(nullable = false, unique = true, length = 150)
-    private String email;
+    @Size(max = 500)
+    @Column(length = 500)
+    private String description;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
-    @Column(nullable = false, length = 100)
-    private String career;
+    @Size(max = 255)
+    private String repositoryUrl;
 
-    @NotNull
-    private Integer semester;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProjectStatus status = ProjectStatus.ACTIVE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -52,6 +47,6 @@ public class Student {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectMember> projects = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectMember> members = new ArrayList<>();
 }
