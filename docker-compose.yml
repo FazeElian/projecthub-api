@@ -31,5 +31,17 @@ services:
     ports:
       - "8082:8082"
 
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+
+        - action: rebuild
+          path: pom.xml
+
+        - action: rebuild
+          path: Dockerfile
+
 volumes:
   postgres_data:
